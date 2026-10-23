@@ -16,151 +16,150 @@ The local website displays 3 courses. - The live website displays 6 courses. - T
 
 ## BUG-001 — Login Fails with Valid Credentials
 
-**1. Bug ID & Title:**  
-BUG-001 — Login Fails with Valid Credentials Due to Incorrect Password Comparison
+# CourseMaster — Bug Fixing & Solutions
 
-**2. Location & Steps to Reproduce:**
+## BUG-001 — Login Fails with Valid Credentials
 
-**Location:** Backend — Authentication Service (`login` function)
+**Location:** Backend — Authentication Service (`auth.service.js`)
 
-**Steps to Reproduce:**
-1. Register a new user with a valid email and password.
-2. Confirm that the registration API returns a token and user details.
-3. Navigate to the Login page.
-4. Enter the same email and password used during registration.
-5. Click the Login button.
+**Root Cause:** The submitted password was compared directly with the stored bcrypt hash.
 
-**3. Expected vs. Actual Result:**
+**Fix Applied:**
+```js
+const match = await bcrypt.compare(password, user.passwordHash);
+if (!match) throw new Error("Invalid email or password");
+```
 
-**Expected Result:** The application should authenticate the user and return a valid token when the correct credentials are provided.
-
-**Actual Result:** The login API returns `400 Bad Request` with the message `Invalid email or password`, even when the registered credentials are used.
-
-**4. Severity & Evidence:**
-
-**Severity:** High
-
-**Evidence:** The registration API returned a token and user details. The login API returned `400 Bad Request` with `{"message":"Invalid email or password"}`. The authentication service compares the provided password directly with the stored bcrypt hash instead of using `bcrypt.compare()`.
-
-**5. Fix & Verification Status:**
-
-**Fix:** Replace the direct password equality check with `await bcrypt.compare(password, user.passwordHash)`.
-
-**Verification Status:** Unresolved — pending implementation and retesting.
-
+**Verification Status:** Fixed and Verified — login succeeded with valid registered credentials.
 
 ---
 
-### BUG-002 — Logout Button Not Displayed After Login
+## BUG-002 — Logout Button Not Displayed After Login
 
-**1. Bug ID & Title:**
+**Location:** Frontend — `src/utils/auth.js`
 
-BUG-002 — Logout Button Not Displayed After Successful Login
+**Root Cause:** The application saved the token using `user_token` but retrieved and removed it using `token`.
 
-**2. Location & Steps to Reproduce:**
+**Fix Applied:**
+```js
+export const saveToken = (token) => localStorage.setItem("token", token);
+```
 
-**Location:** Frontend — Navbar component (`Navbar.jsx`)
-
-**Steps to Reproduce:**
-1. Open the CourseMaster application.
-2. Log in using valid registered credentials.
-3. Navigate to the Home page.
-4. Inspect the Navbar on the right side.
-5. Observe that the Logout button is not visible.
-
-**3. Expected vs. Actual Result:**
-
-**Expected Result:** After successful login, the Navbar should provide an accessible Logout option for the authenticated user.
-
-**Actual Result:** The Logout button is not visible in the Navbar after login.
-
-**4. Severity & Evidence:**
-
-**Severity:** Medium — pending confirmation against the assessment requirements.
-
-**Evidence:** A screenshot of the Navbar after successful login has been retained.
-
-**5. Fix & Verification Status:**
-
-**Fix:** Pending investigation. The Navbar currently renders the desktop user menu only when both `token` and `me` are available. The cause has not yet been confirmed.
-
-**Verification Status:** Fixed and Verified — the user profile and dropdown menu now appear after login, displaying Profile, Dashboard, and Logout.
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Bug Report 1: Student Portal Navigation Failure
-
-**1. Bug ID & Title:**  
-BUG-001 — Student Portal Button Fails to Open the Student Dashboard
-
-**2. Location & Steps to Reproduce:**
-
-**Location:** Login Page
-
-**Steps to Reproduce:**
-1. Open the CourseMaster Login page.
-2. Click the **Student Portal** button.
-3. Observe the application's behavior after clicking the button.
-
-**3. Expected vs. Actual Result:**
-
-**Expected Result:** The application should open the Student Dashboard for an authorized student.
-
-**Actual Result:** The application remains on the Login page. A `401 Unauthorized` response was observed during testing.
-
-**4. Severity & Evidence:**
-
-**Severity:** Medium
-
-**Evidence:** A `401 Unauthorized` response was observed during testing. Attach a screenshot of the browser's Network tab showing the failed request and its status code.
-
-**5. Fix & Verification Status:**
-
-**Fix:** Pending investigation.
-
-**Verification Status:** Unresolved — the issue has not yet been fixed and verified.
-
+**Verification Status:** Fixed and Verified — the Profile, Dashboard, and Logout options appear after login, and Logout works successfully.
 
 ---
 
-# Bug Report 2: Admin Portal Navigation Failure
+## BUG-003 — Student Dashboard Appeared Blank
 
-**1. Bug ID & Title:**  
-BUG-002 — Admin Portal Button Fails to Open the Admin Dashboard
+**Location:** Frontend — `src/store/slices/enrollmentSlice.js`
 
-**2. Location & Steps to Reproduce:**
+**Root Cause:** The Redux slice accessed `action.payload.data`, but the API returned the enrollment array directly.
 
-**Location:** Login Page
+**Fix Applied:**
+```js
+state.enrollments = action.payload;
+```
 
-**Steps to Reproduce:**
-1. Open the CourseMaster Login page.
-2. Click the **Admin Portal** button.
-3. Observe the application's behavior after clicking the button.
+**Verification Status:** Partially Verified — the Dashboard now displays the empty-state message when no courses are enrolled. Successful enrollment still needs testing.
 
-**3. Expected vs. Actual Result:**
+---
 
-**Expected Result:** The application should open the Admin Dashboard for an authorized administrator.
+## BUG-004 — Course Progress Displays NaN%
 
-**Actual Result:** The application remains on the Login page. A `401 Unauthorized` response was observed during testing.
+**Location:** Frontend — `StudentDashboard.jsx`
 
-**4. Severity & Evidence:**
+**Root Cause:** The progress calculation did not handle a zero total lesson count or unavailable course data.
 
-**Severity:** Medium
+**Fix Applied:** Added a check for zero total lessons and limited the calculated progress to a maximum of 100%.
 
-**Evidence:** A `401 Unauthorized` response was observed during testing. Attach a screenshot of the browser's Network tab showing the failed request and its status code.
+**Verification Status:** Pending — verify that the Dashboard displays a valid percentage after the fix.
 
-**5. Fix & Verification Status:**
 
-**Fix:** Pending investigation.
+### BUG-005: Quiz Selection and Percentage Calculation Issues
 
-**Verification Status:** Unresolved — the issue has not yet been fixed and verified.
+**Problem:** Quiz questions interfered with each other's answer selection because they shared the same radio group name. Additionally, the backend calculated quiz percentages using an incorrect multiplier of `10` instead of `100`.
+
+**Root Cause:**
+- Frontend: All quiz questions used the same radio input `name`, preventing independent answer selection.
+- Backend: The percentage calculation used an incorrect multiplier.
+
+**Fix Applied:**
+
+**Frontend — `CoursePlayer.jsx`**
+
+Assigned a unique radio group name to each question:
+
+```jsx
+name={`quiz-${qIdx}`}
+```
+
+This ensures that each question maintains its own answer selection.
+
+**Backend — `src/services/quiz.service.js`**
+
+Updated the percentage calculation:
+
+```js
+const percent = Math.round((score / total) * 100);
+```
+
+This calculates the quiz percentage correctly out of 100.
+
+**Verification:**
+- Verified that each quiz question supports independent answer selection.
+- Verified the backend percentage calculation: `score: 2`, `total: 2`, `percent: 100`.
+
+**Status:** Fixed and Verified.
+
+## BUG-006: Student Portal Redirect Failure**
+
+**Problem:**  
+Clicking the Student Portal button redirected the user to the Login page instead of opening the Student Portal.
+
+**Root Cause:**
+- Frontend: The Student Portal bypass used a hardcoded JWT token instead of authenticating through the backend.
+- Authentication: The hardcoded token did not provide a valid authenticated session for accessing the protected Student Portal.
+
+**Fix Applied:**
+
+**Frontend — `Login.jsx`**
+
+Replaced the hardcoded JWT bypass with a backend login request using the existing student demo credentials. The returned authentication token is saved before navigating to `/student`.
+
+**Verification:**
+- Verified that the student login request succeeds.
+- Verified that the Student Portal opens successfully after authentication.
+
+**Status:** Fixed and Verified.
+
+---
+
+## BUG-007: Admin Portal Redirect Failure**
+
+**Problem:**  
+Clicking the Admin Portal button redirected the user to the Login page instead of opening the Admin Portal.
+
+**Root Cause:**
+- Frontend: The Admin Portal bypass used a hardcoded JWT token instead of authenticating through the backend.
+- Authentication: The hardcoded token did not provide a valid authenticated session for accessing the protected Admin Portal.
+
+**Fix Applied:**
+
+**Frontend — `Login.jsx`**
+
+Replaced the hardcoded JWT bypass with a backend login request using the existing admin demo credentials. The returned authentication token is saved before navigating to `/admin`.
+
+**Verification:**
+- Verified that the admin login request succeeds.
+- Verified that the Admin Portal opens successfully after authentication.
+
+**Status:** Fixed and Verified.
+
+
+
+
+
+
+
+
+

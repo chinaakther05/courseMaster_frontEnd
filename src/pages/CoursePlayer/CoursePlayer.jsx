@@ -537,7 +537,7 @@ function QuizInterface({ quiz, courseId, lessonId, enrollment, onComplete }) {
                     setPreviousSubmission(previous);
                     // Don't set submitted to true - allow retaking
                     // setSubmitted(true);
-                    setScore(previous.percent || previous.score || 0);
+                    setScore(previous.percent ?? 0);
                     // Restore previous answers if available
                     if (previous.answers && Array.isArray(previous.answers)) {
                         const answersObj = {};
@@ -768,7 +768,7 @@ function QuizInterface({ quiz, courseId, lessonId, enrollment, onComplete }) {
                                         >
                                             <input
                                                 type="radio"
-                                                name="quiz-option"
+                                                name={`quiz-${qIdx}`}
                                                 checked={answers[qIdx] === oIdx}
                                                 onChange={() => {
                                                     if (!loading) {

@@ -23,8 +23,9 @@ export default function ProtectedRoute({ children }) {
     // Verify token is valid
     getMe()
       .then(() => setIsValid(true))
-      .catch(() => {
+      .catch((error) => {
         // Fallback: if token exists but network/server check fails, still allow if token exists
+         console.error("getMe failed:", error.response?.status, error.response?.data);
         setIsValid(!!token);
       });
   }, [token]);

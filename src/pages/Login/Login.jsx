@@ -90,28 +90,56 @@ export default function Login() {
                             <div className="grid grid-cols-2 gap-2">
                                 <button
                                     type="button"
-                                    onClick={() => {
-                                        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzFmMzdlNjYwMDZmMWRjYmI1YjUyNiIsInJvbGUiOiJzdHVkZW50IiwiaWF0IjoxNzkxMDk4NTg4fQ.4s3Ygh9GtTper2SB8byNILxPSxZ8y3pO-WyFupmQ0Ws";
-                                        localStorage.setItem("token", token);
-                                        localStorage.setItem("user_token", token);
-                                        localStorage.setItem("dev_bypass", "true");
-                                        navigate("/student");
-                                        window.location.reload();
-                                    }}
+                                    onClick={async () => {
+  try {
+    setLoading(true);
+    setError(null);
+
+    const res = await loginUser({
+      email: "student@coursemaster.com",
+      password: "student123",
+    });
+
+    saveToken(res.data.token);
+    localStorage.removeItem("dev_bypass");
+
+    navigate("/student");
+  } catch (err) {
+    setError(
+      err.response?.data?.message || "Student login failed."
+    );
+  } finally {
+    setLoading(false);
+  }
+}}
                                     className="btn btn-xs btn-primary font-bold text-xs"
                                 >
                                     🎓 Student Portal
                                 </button>
                                 <button
                                     type="button"
-                                    onClick={() => {
-                                        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhYzFmMzdlNjYwMDZmMWRjYmI1YjUyNSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MTA5ODU4OH0.vL3Hj-fEGVbouM-cZ9RtMIpaCU5ugRwsNqaKyYdxdNY";
-                                        localStorage.setItem("token", token);
-                                        localStorage.setItem("user_token", token);
-                                        localStorage.setItem("dev_bypass", "true");
-                                        navigate("/admin");
-                                        window.location.reload();
-                                    }}
+                                   onClick={async () => {
+  try {
+    setLoading(true);
+    setError(null);
+
+    const res = await loginUser({
+      email: "admin@coursemaster.com",
+      password: "admin123",
+    });
+
+    saveToken(res.data.token);
+    localStorage.removeItem("dev_bypass");
+
+    navigate("/admin");
+  } catch (err) {
+    setError(
+      err.response?.data?.message || "Admin login failed."
+    );
+  } finally {
+    setLoading(false);
+  }
+}}
                                     className="btn btn-xs btn-secondary font-bold text-xs"
                                 >
                                     👑 Admin Portal
