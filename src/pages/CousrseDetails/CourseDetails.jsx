@@ -76,13 +76,27 @@ export default function CourseDetails() {
         );
     }
 
-    if (courseError || !currentCourse) {
-        return (
-            <div className="alert alert-error">
-                <span>{courseError || "Course not found"}</span>
-            </div>
-        );
-    }
+    
+if (courseError) {
+    return (
+        <div className="flex justify-center items-center min-h-[60vh]">
+            <p className="text-base-content/70 text-center">
+                {courseError}
+            </p>
+        </div>
+    );
+}
+
+if (!currentCourse) {
+    return (
+        <div className="flex justify-center items-center min-h-[60vh]">
+            <p className="text-base-content/70 text-center">
+                Course not found.
+            </p>
+        </div>
+    );
+}
+
 
     const course = currentCourse;
 
