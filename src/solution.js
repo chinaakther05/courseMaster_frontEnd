@@ -210,3 +210,104 @@ var containsDuplicate = function(nums) {
     return false;
 };
 console.log(containsDuplicate([1, 2, 3, 1]));
+
+
+// Problem 14: Move Zeroes
+var moveZeroes = function(nums) {
+    let position = 0;
+
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] !== 0) {
+            nums[position] = nums[i];
+            position++;
+        }
+    }
+
+    while (position < nums.length) {
+        nums[position] = 0;
+        position++;
+    }
+};
+console.log(moveZeroes([0, 1, 0, 3, 12]));
+
+
+// Problem 15: Merge Sorted Array
+var merge = function(nums1, m, nums2, n) {
+    let i = m - 1;
+    let j = n - 1;
+    let k = m + n - 1;
+
+    while (j >= 0) {
+        if (i >= 0 && nums1[i] > nums2[j]) {
+            nums1[k] = nums1[i];
+            i--;
+        } else {
+            nums1[k] = nums2[j];
+            j--;
+        }
+
+        k--;
+    }
+};
+console.log(merge([1, 2, 3, 0, 0, 0], 3, [2, 5, 6], 3));
+
+
+// Problem 16: 3Sum
+var threeSum = function(nums) {
+    let result = [];
+    nums.sort((a, b) => a - b);
+
+    for (let i = 0; i < nums.length - 2; i++) {
+        if (i > 0 && nums[i] === nums[i - 1]) {
+            continue;
+        }
+
+        let left = i + 1;
+        let right = nums.length - 1;
+
+        while (left < right) {
+            let sum = nums[i] + nums[left] + nums[right];
+
+            if (sum === 0) {
+                result.push([nums[i], nums[left], nums[right]]);
+                left++;
+                right--;
+
+                while (left < right && nums[left] === nums[left - 1]) {
+                    left++;
+                }
+
+                while (left < right && nums[right] === nums[right + 1]) {
+                    right--;
+                }
+            } else if (sum < 0) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+    }
+
+    return result;
+};
+console.log(threeSum([-1, 0, 1, 2, -1, -4]));
+
+
+// Problem 17: Plus One
+var plusOne = function(digits) {
+    for (let i = digits.length - 1; i >= 0; i--) {
+        if (digits[i] < 9) {
+            digits[i]++;
+            return digits;
+        }
+
+        digits[i] = 0;
+    }
+
+    digits.unshift(1);
+
+    return digits;
+};
+console.log(plusOne([1, 2, 3]));
+
+
