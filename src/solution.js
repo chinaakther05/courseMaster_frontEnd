@@ -29,3 +29,27 @@ var gradingStudents = function(grades) {
 
     return grades;
 };
+console.log(gradingStudents([73, 67, 38, 33]));
+
+
+
+
+var timeConversion = function(s) {
+    let hour = Number(s.slice(0, 2));
+    let period = s.slice(-2);
+
+    if (period === "AM") {
+        if (hour === 12) {
+            hour = 0;
+        }
+    } else {
+        if (hour !== 12) {
+            hour = hour + 12;
+        }
+    }
+
+    let result = String(hour).padStart(2, "0");
+
+    return result + s.slice(2, 8);
+};
+console.log(timeConversion("07:05:45PM"));

@@ -34,17 +34,10 @@ export default function CoursesSection() {
                 category: category || undefined,
                 tags: tags || undefined,
             };
-            console.log("Course filters:", params);
+           
 
             const res = await getCourses(params);
             setCourses(res.data.courses || []);
-            console.log(
-  "Sorted courses:",
-  res.data.courses.map((course) => ({
-    title: course.title,
-    price: course.price,
-  }))
-);
             setTotalPages(res.data.totalPages || 1);
         } catch (err) {
             setError("Failed to load courses");

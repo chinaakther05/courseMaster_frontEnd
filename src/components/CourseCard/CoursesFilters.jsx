@@ -27,8 +27,8 @@ export default function CoursesFilters({
                     onChange={(e) => setSort(e.target.value)}
                 >
                     <option value="">Sort by price</option>
-                    <option value="price_asc">Price Low → High</option>
-                    <option value="price_desc">Price High → Low</option>
+                    <option value="price_asc">Price High → Low</option>
+                    <option value="price_desc">Price Low → High</option>
                 </select>
 
                 {/* Category */}
