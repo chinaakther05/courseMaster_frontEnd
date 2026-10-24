@@ -136,3 +136,77 @@ var fizzBuzz = function(n) {
     return result;
 };
 console.log(fizzBuzz(15));
+
+
+// Problem 10: Running Sum of 1D Array
+var runningSum = function(nums) {
+    let sum = 0;
+
+    for (let i = 0; i < nums.length; i++) {
+        sum = sum + nums[i];
+        nums[i] = sum;
+    }
+
+    return nums;
+};
+
+console.log(runningSum([1, 2, 3, 4]));
+
+
+
+
+// Problem 11: Richest Customer Wealth
+var maximumWealth = function(accounts) {
+    let maxWealth = 0;
+
+    for (let i = 0; i < accounts.length; i++) {
+        let total = 0;
+
+        for (let j = 0; j < accounts[i].length; j++) {
+            total = total + accounts[i][j];
+        }
+
+        if (total > maxWealth) {
+            maxWealth = total;
+        }
+    }
+
+    return maxWealth;
+};
+console.log(maximumWealth([[1, 2, 3], [3, 2, 1]]));
+
+
+// Problem 12: Remove Duplicates from Sorted Array
+var removeDuplicates = function(nums) {
+    if (nums.length === 0) {
+        return 0;
+    }
+
+    let k = 1;
+
+    for (let i = 1; i < nums.length; i++) {
+        if (nums[i] !== nums[i - 1]) {
+            nums[k] = nums[i];
+            k++;
+        }
+    }
+
+    return k;
+};
+console.log(removeDuplicates([1, 1, 2]));
+
+
+
+// Problem 13: Contains Duplicate
+var containsDuplicate = function(nums) {
+    for (let i = 0; i < nums.length; i++) {
+        for (let j = i + 1; j < nums.length; j++) {
+            if (nums[i] === nums[j]) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+};
+console.log(containsDuplicate([1, 2, 3, 1]));

@@ -211,6 +211,42 @@ Replaced the incorrect price calculation with proper number formatting.
 **Result:** The course price is now displayed correctly on the Course Details page.
 
 
+# Bug Report: Red Background Appears When Clicking the Details Button
+
+## 1. Bug ID & Title
+
+**BUG-010 — Unexpected Red Background on Details Button Click**
+
+## 2. Location & Steps to Reproduce
+
+**Location:** Frontend — `src/pages/Courses/Courses.jsx` and `src/pages/CousrseDetails/CourseDetails.jsx`
+
+**Steps:**
+
+1. Open the Courses page.
+2. Click the **Details** button on any course card.
+3. Observe the screen during navigation to the Course Details page.
+4. Notice the red background appearing briefly before the page finishes loading.
+
+## 3. Expected vs. Actual Result
+
+**Expected Result:** Clicking the Details button should navigate to the Course Details page smoothly without displaying an unexpected red background.
+
+**Actual Result:** A red background briefly appeared after clicking the Details button, making the page transition look like an error.
+
+## 4. Severity & Evidence
+
+**Severity:** Low
+
+**Before Fix Evidence:** A screenshot showing the red background appearing after clicking the Details button.
+
+**After Fix Evidence:** A screenshot showing the Course Details page opening without the unexpected red background.
+
+## 5. Fix & Verification Status
+
+**Fix Applied:** Replaced the `alert alert-error` styling in `CourseDetails.jsx` with neutral text styling to prevent the error message from displaying a red alert background.
+
+**Verification Status:** Verified — clicking the Details button no longer displays the unexpected red background.
 
 
 
