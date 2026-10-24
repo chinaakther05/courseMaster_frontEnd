@@ -94,3 +94,16 @@ var positiveSum = function(arr) {
     return sum;
 };
 console.log(positiveSum([1, -4, 7, 12]));
+
+
+// Problem 7: Grasshopper Summation
+var summation = function(num) {
+    let sum = 0;
+
+    for (let i = 1; i <= num; i++) {
+        sum = sum + i;
+    }
+
+    return sum;
+};
+console.log(summation(1));
