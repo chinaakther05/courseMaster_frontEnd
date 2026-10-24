@@ -1,3 +1,7 @@
+
+"use strict";
+
+// Problem 1 Staircase
 var staircase = function(n) {
     let result = "";
 
@@ -11,29 +15,31 @@ var staircase = function(n) {
 
     return result;
 };
-console.log(staircase(4));
 
 
-
-
+// Problem 2 Grading Students
 var gradingStudents = function(grades) {
-    for (let i = 0; i < grades.length; i++) {
-        if (grades[i] >= 38) {
-            let nextMultiple = Math.ceil(grades[i] / 5) * 5;
+    let result = [];
 
-            if (nextMultiple - grades[i] < 3) {
-                grades[i] = nextMultiple;
+    for (let i = 0; i < grades.length; i++) {
+        let grade = grades[i];
+
+        if (grade >= 38) {
+            let nextMultiple = Math.ceil(grade / 5) * 5;
+
+            if (nextMultiple - grade < 3) {
+                grade = nextMultiple;
             }
         }
+
+        result.push(grade);
     }
 
-    return grades;
+    return result;
 };
-console.log(gradingStudents([73, 67, 38, 33]));
 
 
-
-
+// Problem 3 Time Conversion
 var timeConversion = function(s) {
     let hour = Number(s.slice(0, 2));
     let period = s.slice(-2);
@@ -52,11 +58,10 @@ var timeConversion = function(s) {
 
     return result + s.slice(2, 8);
 };
-console.log(timeConversion("07:05:45PM"));
 
 
-
-var repeatString = function(s, n) {
+// Problem 4 String Repeat
+var repeatStr = function(n, s) {
     let result = "";
 
     for (let i = 0; i < n; i++) {
@@ -65,10 +70,9 @@ var repeatString = function(s, n) {
 
     return result;
 };
-console.log(repeatString("abc", 3));
 
 
-// Problem 5: Reversed Strings
+// Problem 5 Reversed Strings
 var solution = function(str) {
     let result = "";
 
@@ -78,10 +82,9 @@ var solution = function(str) {
 
     return result;
 };
-console.log(solution("world"));
 
 
-// Problem 6: Sum of Positive
+// Problem 6 Sum of Positive
 var positiveSum = function(arr) {
     let sum = 0;
 
@@ -93,10 +96,9 @@ var positiveSum = function(arr) {
 
     return sum;
 };
-console.log(positiveSum([1, -4, 7, 12]));
 
 
-// Problem 7: Grasshopper Summation
+// Problem 7 Grasshopper — Summation
 var summation = function(num) {
     let sum = 0;
 
@@ -106,18 +108,15 @@ var summation = function(num) {
 
     return sum;
 };
-console.log(summation(1));
 
 
-// Problem 8: Boolean to String
-function booleanToString(b) {
+// Problem 8 Convert a Boolean to a String
+var booleanToString = function(b) {
     return String(b);
-}
-console.log(booleanToString(true));
-console.log(booleanToString(false));
+};
 
 
-// Problem 9: Fizz Buzz
+// Problem 9 Fizz Buzz
 var fizzBuzz = function(n) {
     let result = [];
 
@@ -129,33 +128,29 @@ var fizzBuzz = function(n) {
         } else if (i % 5 === 0) {
             result.push("Buzz");
         } else {
-            result.push(i);
+            result.push(String(i));
         }
     }
 
     return result;
 };
-console.log(fizzBuzz(15));
 
 
-// Problem 10: Running Sum of 1D Array
+// Problem 10 Running Sum of 1D Array
 var runningSum = function(nums) {
     let sum = 0;
+    let result = [];
 
     for (let i = 0; i < nums.length; i++) {
         sum = sum + nums[i];
-        nums[i] = sum;
+        result.push(sum);
     }
 
-    return nums;
+    return result;
 };
 
-console.log(runningSum([1, 2, 3, 4]));
 
-
-
-
-// Problem 11: Richest Customer Wealth
+// Problem 11 Richest Customer Wealth
 var maximumWealth = function(accounts) {
     let maxWealth = 0;
 
@@ -173,10 +168,9 @@ var maximumWealth = function(accounts) {
 
     return maxWealth;
 };
-console.log(maximumWealth([[1, 2, 3], [3, 2, 1]]));
 
 
-// Problem 12: Remove Duplicates from Sorted Array
+// Problem 12 Remove Duplicates from Sorted Array
 var removeDuplicates = function(nums) {
     if (nums.length === 0) {
         return 0;
@@ -185,7 +179,7 @@ var removeDuplicates = function(nums) {
     let k = 1;
 
     for (let i = 1; i < nums.length; i++) {
-        if (nums[i] !== nums[i - 1]) {
+        if (nums[i] !== nums[k - 1]) {
             nums[k] = nums[i];
             k++;
         }
@@ -193,11 +187,9 @@ var removeDuplicates = function(nums) {
 
     return k;
 };
-console.log(removeDuplicates([1, 1, 2]));
 
 
-
-// Problem 13: Contains Duplicate
+// Problem 13 Contains Duplicate
 var containsDuplicate = function(nums) {
     for (let i = 0; i < nums.length; i++) {
         for (let j = i + 1; j < nums.length; j++) {
@@ -209,10 +201,9 @@ var containsDuplicate = function(nums) {
 
     return false;
 };
-console.log(containsDuplicate([1, 2, 3, 1]));
 
 
-// Problem 14: Move Zeroes
+// Problem 14 Move Zeroes
 var moveZeroes = function(nums) {
     let position = 0;
 
@@ -228,10 +219,9 @@ var moveZeroes = function(nums) {
         position++;
     }
 };
-console.log(moveZeroes([0, 1, 0, 3, 12]));
 
 
-// Problem 15: Merge Sorted Array
+// Problem 15 Merge Sorted Array
 var merge = function(nums1, m, nums2, n) {
     let i = m - 1;
     let j = n - 1;
@@ -249,13 +239,14 @@ var merge = function(nums1, m, nums2, n) {
         k--;
     }
 };
-console.log(merge([1, 2, 3, 0, 0, 0], 3, [2, 5, 6], 3));
 
 
-// Problem 16: 3Sum
+// Problem 16 3Sum
 var threeSum = function(nums) {
     let result = [];
-    nums.sort((a, b) => a - b);
+    nums.sort(function(a, b) {
+        return a - b;
+    });
 
     for (let i = 0; i < nums.length - 2; i++) {
         if (i > 0 && nums[i] === nums[i - 1]) {
@@ -290,10 +281,9 @@ var threeSum = function(nums) {
 
     return result;
 };
-console.log(threeSum([-1, 0, 1, 2, -1, -4]));
 
 
-// Problem 17: Plus One
+// Problem 17 Plus One
 var plusOne = function(digits) {
     for (let i = digits.length - 1; i >= 0; i--) {
         if (digits[i] < 9) {
@@ -308,10 +298,9 @@ var plusOne = function(digits) {
 
     return digits;
 };
-console.log(plusOne([1, 2, 3]));
 
 
-// Problem 18: Reverse String
+// Problem 18 Reverse String
 var reverseString = function(s) {
     let left = 0;
     let right = s.length - 1;
@@ -325,15 +314,45 @@ var reverseString = function(s) {
         right--;
     }
 };
-console.log(reverseString(["h", "e", "l", "l", "o"]));
 
 
-
-// Problem 19: Length of Last Word
+// Problem 19 Length of Last Word
 var lengthOfLastWord = function(s) {
-    let words = s.trim().split(" ");
-    let lastWord = words[words.length - 1];
+    let i = s.length - 1;
+    let length = 0;
 
-    return lastWord.length;
+    while (i >= 0 && s[i] === " ") {
+        i--;
+    }
+
+    while (i >= 0 && s[i] !== " ") {
+        length++;
+        i--;
+    }
+
+    return length;
 };
-console.log(lengthOfLastWord("Hello World"));
+
+
+// Problem 20 Longest Common Prefix
+var longestCommonPrefix = function(strs) {
+    if (strs.length === 0) {
+        return "";
+    }
+
+    let prefix = strs[0];
+
+    for (let i = 1; i < strs.length; i++) {
+        while (strs[i].indexOf(prefix) !== 0) {
+            prefix = prefix.slice(0, -1);
+
+            if (prefix === "") {
+                return "";
+            }
+        }
+    }
+
+    return prefix;
+};
+
+
