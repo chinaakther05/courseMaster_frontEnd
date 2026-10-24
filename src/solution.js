@@ -107,3 +107,11 @@ var summation = function(num) {
     return sum;
 };
 console.log(summation(1));
+
+
+// Problem 8: Boolean to String
+function booleanToString(b) {
+    return String(b);
+}
+console.log(booleanToString(true));
+console.log(booleanToString(false));

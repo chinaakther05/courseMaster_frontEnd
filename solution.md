@@ -181,6 +181,35 @@ Replaced the hardcoded JWT bypass with a backend login request using the existin
 
 
 
+## Bug Fixes & Verification
+
+### BUG-009: Incorrect Course Price on Course Details Page
+
+**Category:** Functional / UI Data Display  
+**Severity:** Medium  
+**Status:** Fixed and Verified
+
+**Problem**  
+The Courses page displayed the correct course price, but the Course Details page showed an incorrect amount.
+
+**Root Cause**  
+In `src/pages/CousrseDetails/CourseDetails.jsx`, the course price was multiplied by `100`, causing the displayed amount to be incorrect.
+
+**Solution**  
+Replaced the incorrect price calculation with proper number formatting.
+
+```jsx
+৳ {course.price?.toLocaleString("en-BD")}
+```
+
+**Verification**
+
+- Confirmed the price displayed on the Courses page.
+- Opened the same course's Details page.
+- Verified that both pages display the same price.
+
+**Result:** The course price is now displayed correctly on the Course Details page.
+
 
 
 
