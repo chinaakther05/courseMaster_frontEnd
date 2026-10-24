@@ -66,3 +66,16 @@ var repeatString = function(s, n) {
     return result;
 };
 console.log(repeatString("abc", 3));
+
+
+// Problem 5: Reversed Strings
+var solution = function(str) {
+    let result = "";
+
+    for (let i = str.length - 1; i >= 0; i--) {
+        result = result + str[i];
+    }
+
+    return result;
+};
+console.log(solution("world"));
