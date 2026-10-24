@@ -311,3 +311,29 @@ var plusOne = function(digits) {
 console.log(plusOne([1, 2, 3]));
 
 
+// Problem 18: Reverse String
+var reverseString = function(s) {
+    let left = 0;
+    let right = s.length - 1;
+
+    while (left < right) {
+        let temp = s[left];
+        s[left] = s[right];
+        s[right] = temp;
+
+        left++;
+        right--;
+    }
+};
+console.log(reverseString(["h", "e", "l", "l", "o"]));
+
+
+
+// Problem 19: Length of Last Word
+var lengthOfLastWord = function(s) {
+    let words = s.trim().split(" ");
+    let lastWord = words[words.length - 1];
+
+    return lastWord.length;
+};
+console.log(lengthOfLastWord("Hello World"));
