@@ -53,3 +53,16 @@ var timeConversion = function(s) {
     return result + s.slice(2, 8);
 };
 console.log(timeConversion("07:05:45PM"));
+
+
+
+var repeatString = function(s, n) {
+    let result = "";
+
+    for (let i = 0; i < n; i++) {
+        result = result + s;
+    }
+
+    return result;
+};
+console.log(repeatString("abc", 3));

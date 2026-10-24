@@ -156,6 +156,31 @@ Replaced the hardcoded JWT bypass with a backend login request using the existin
 **Status:** Fixed and Verified.
 
 
+### BUG-008: Course Price Sorting Order Reversed
+
+**Problem:** The course price sorting options did not match the displayed sorting behavior. Selecting a sorting option caused confusion because the displayed order was opposite to the option label.
+
+**Location:** Frontend — `CoursesFilters.jsx`
+
+**Root Cause:** The price sorting dropdown labels were inconsistent with the observed sorting behavior.
+
+**Fix Applied:** Updated the sorting dropdown labels in `CoursesFilters.jsx` to match the observed behavior. The existing option values and backend sorting logic were left unchanged.
+
+**Verification:**
+- Tested the Price Low → High option.
+- Tested the Price High → Low option.
+- Confirmed that both options displayed the expected course price order after the fix.
+
+**Status:** Fixed and verified.
+
+**Evidence:**
+- Before Fix: Screenshot showing the incorrect sorting behavior.
+- After Fix: Screenshot showing the corrected sorting behavior.
+
+**Note:** The existing backend sorting logic was not modified.
+
+
+
 
 
 
